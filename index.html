@@ -9,21 +9,20 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #f0f2f5;
-      color: #1a1a2e;
+      background: #2A2A2A;
+      color: #F8F8F8;
       min-height: 100vh;
     }
 
     header {
-      background: #1a1a2e;
-      color: #fff;
-      padding: 16px 32px;
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.3px;
+      background: #1e1e1e;
+      border-bottom: 1px solid #626261;
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
     }
 
-    header span { color: #818cf8; }
+    header img { height: 40px; width: auto; display: block; }
 
     .container {
       max-width: 720px;
@@ -32,17 +31,18 @@
     }
 
     .card {
-      background: #fff;
+      background: #333333;
       border-radius: 12px;
       padding: 28px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.25);
       margin-bottom: 28px;
+      border: 1px solid #444;
     }
 
     .card h2 {
       font-size: 16px;
       font-weight: 600;
-      color: #555;
+      color: #5BBEC9;
       text-transform: uppercase;
       letter-spacing: 0.6px;
       margin-bottom: 20px;
@@ -52,24 +52,25 @@
       display: block;
       font-size: 13px;
       font-weight: 600;
-      color: #666;
+      color: #626261;
       margin-bottom: 6px;
     }
 
     input[type="text"], textarea {
       width: 100%;
-      border: 1.5px solid #dde;
+      background: #2A2A2A;
+      border: 1.5px solid #626261;
       border-radius: 8px;
       padding: 10px 14px;
       font-family: inherit;
       font-size: 15px;
-      color: #1a1a2e;
+      color: #F8F8F8;
       outline: none;
       transition: border-color 0.15s;
       margin-bottom: 16px;
     }
 
-    input[type="text"]:focus, textarea:focus { border-color: #6366f1; }
+    input[type="text"]:focus, textarea:focus { border-color: #019BAB; }
 
     input[type="text"] { font-weight: 600; font-size: 17px; }
 
@@ -89,24 +90,24 @@
       transition: all 0.15s;
     }
 
-    .btn-primary { background: #6366f1; color: #fff; }
-    .btn-primary:hover { background: #4f52d3; transform: translateY(-1px); }
+    .btn-primary { background: #019BAB; color: #F8F8F8; }
+    .btn-primary:hover { background: #5BBEC9; transform: translateY(-1px); }
 
     .btn-ghost {
       background: transparent;
-      border: 1.5px solid #dde;
-      color: #555;
+      border: 1.5px solid #626261;
+      color: #F8F8F8;
     }
-    .btn-ghost:hover { background: #f5f5ff; border-color: #6366f1; color: #6366f1; }
+    .btn-ghost:hover { background: rgba(1,155,171,0.12); border-color: #019BAB; color: #5BBEC9; }
 
-    .btn-danger { background: #fee2e2; color: #dc2626; border: none; }
-    .btn-danger:hover { background: #fecaca; }
+    .btn-danger { background: rgba(229,0,79,0.15); color: #E5004F; border: none; }
+    .btn-danger:hover { background: rgba(229,0,79,0.28); }
 
     .slides-list { display: flex; flex-direction: column; gap: 12px; }
 
     .slide-item {
-      background: #fff;
-      border: 1.5px solid #e8e8f0;
+      background: #2A2A2A;
+      border: 1.5px solid #626261;
       border-radius: 10px;
       padding: 18px 20px;
       display: flex;
@@ -115,11 +116,11 @@
       transition: border-color 0.15s;
     }
 
-    .slide-item:hover { border-color: #6366f1; }
+    .slide-item:hover { border-color: #019BAB; }
 
     .slide-num {
-      background: #6366f1;
-      color: #fff;
+      background: #019BAB;
+      color: #F8F8F8;
       font-size: 12px;
       font-weight: 700;
       width: 26px;
@@ -137,7 +138,7 @@
     .slide-title {
       font-size: 15px;
       font-weight: 700;
-      color: #1a1a2e;
+      color: #F8F8F8;
       margin-bottom: 4px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -146,7 +147,7 @@
 
     .slide-body {
       font-size: 13px;
-      color: #888;
+      color: #626261;
       overflow: hidden;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -159,7 +160,7 @@
     .empty {
       text-align: center;
       padding: 32px;
-      color: #aaa;
+      color: #626261;
       font-size: 14px;
     }
 
@@ -180,8 +181,8 @@
       flex-direction: column;
       justify-content: center;
       padding: 80px 120px;
-      background: linear-gradient(135deg, #1a1a2e, #302b63);
-      color: #fff;
+      background: linear-gradient(135deg, #2A2A2A, #019BAB);
+      color: #F8F8F8;
     }
 
     .slideshow-slide h1 {
@@ -257,8 +258,8 @@
       width: 100%;
       text-align: center;
       padding: 12px;
-      background: #1a1a2e;
-      color: #fff;
+      background: #019BAB;
+      color: #F8F8F8;
       border: none;
       border-radius: 8px;
       font-family: inherit;
@@ -269,12 +270,12 @@
       margin-top: 4px;
     }
 
-    .present-btn:hover { background: #302b63; transform: translateY(-1px); }
+    .present-btn:hover { background: #5BBEC9; transform: translateY(-1px); }
   </style>
 </head>
 <body>
 
-<header>Slide<span>Craft</span></header>
+<header><img src="Лого_цветочек.png" alt="Logo"></header>
 
 <div class="container">
 
@@ -357,7 +358,7 @@
         <div class="slide-num">${i + 1}</div>
         <div class="slide-content">
           <div class="slide-title">${esc(s.title)}</div>
-          <div class="slide-body">${esc(s.body) || '<em style="color:#ccc">No content</em>'}</div>
+          <div class="slide-body">${esc(s.body) || '<em style="color:#626261">No content</em>'}</div>
         </div>
         <div class="slide-actions">
           <button class="btn btn-danger" onclick="deleteSlide(${i})">✕</button>
