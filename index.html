@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presentation Maker</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 16px 32px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    header span { color: #818cf8; }
+
+    .container {
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      margin-bottom: 28px;
+    }
+
+    .card h2 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      border: 1.5px solid #dde;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 15px;
+      color: #1a1a2e;
+      outline: none;
+      transition: border-color 0.15s;
+      margin-bottom: 16px;
+    }
+
+    input[type="text"]:focus, textarea:focus { border-color: #6366f1; }
+
+    input[type="text"] { font-weight: 600; font-size: 17px; }
+
+    textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-primary { background: #6366f1; color: #fff; }
+    .btn-primary:hover { background: #4f52d3; transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1.5px solid #dde;
+      color: #555;
+    }
+    .btn-ghost:hover { background: #f5f5ff; border-color: #6366f1; color: #6366f1; }
+
+    .btn-danger { background: #fee2e2; color: #dc2626; border: none; }
+    .btn-danger:hover { background: #fecaca; }
+
+    .slides-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .slide-item {
+      background: #fff;
+      border: 1.5px solid #e8e8f0;
+      border-radius: 10px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: border-color 0.15s;
+    }
+
+    .slide-item:hover { border-color: #6366f1; }
+
+    .slide-num {
+      background: #6366f1;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .slide-content { flex: 1; min-width: 0; }
+
+    .slide-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .slide-body {
+      font-size: 13px;
+      color: #888;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-height: 1.5;
+    }
+
+    .slide-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+    .empty {
+      text-align: center;
+      padding: 32px;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .slideshow-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 100;
+      flex-direction: column;
+    }
+
+    .slideshow-overlay.active { display: flex; }
+
+    .slideshow-slide {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 120px;
+      background: linear-gradient(135deg, #1a1a2e, #302b63);
+      color: #fff;
+    }
+
+    .slideshow-slide h1 {
+      font-size: clamp(32px, 5vw, 64px);
+      font-weight: 800;
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+
+    .slideshow-slide p {
+      font-size: clamp(16px, 2vw, 24px);
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+
+    .slideshow-bar {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 40px;
+      padding: 10px 18px;
+    }
+
+    .ss-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.7);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+
+    .ss-btn:hover { color: #fff; background: rgba(255,255,255,0.12); }
+    .ss-btn:disabled { opacity: 0.3; cursor: default; }
+
+    .ss-counter {
+      color: rgba(255,255,255,0.6);
+      font-size: 13px;
+      font-weight: 500;
+      min-width: 52px;
+      text-align: center;
+    }
+
+    .ss-exit {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.7);
+      border-radius: 7px;
+      padding: 7px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+
+    .ss-exit:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+    .present-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 12px;
+      background: #1a1a2e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-top: 4px;
+    }
+
+    .present-btn:hover { background: #302b63; transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+
+<header>Slide<span>Craft</span></header>
+
+<div class="container">
+
+  <!-- Add Slide Form -->
+  <div class="card">
+    <h2>New Slide</h2>
+    <label for="titleInput">Title</label>
+    <input type="text" id="titleInput" placeholder="Enter slide title…" />
+    <label for="bodyInput">Content</label>
+    <textarea id="bodyInput" placeholder="Enter slide content…"></textarea>
+    <button class="btn btn-primary" onclick="addSlide()">+ Add Slide</button>
+  </div>
+
+  <!-- Slides List -->
+  <div class="card">
+    <h2>Slides <span id="slideCount" style="font-size:13px; color:#aaa; text-transform:none; letter-spacing:0;">(0)</span></h2>
+    <div class="slides-list" id="slidesList">
+      <div class="empty" id="emptyMsg">No slides yet. Add one above.</div>
+    </div>
+    <div style="margin-top:16px;" id="presentWrap" hidden>
+      <button class="present-btn" onclick="startSlideshow()">▶ Present Fullscreen</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Slideshow Overlay -->
+<div class="slideshow-overlay" id="overlay">
+  <button class="ss-exit" onclick="exitSlideshow()">✕ Exit (Esc)</button>
+  <div class="slideshow-slide" id="ssSlide">
+    <h1 id="ssTitle"></h1>
+    <p id="ssBody"></p>
+  </div>
+  <div class="slideshow-bar">
+    <button class="ss-btn" id="ssPrev" onclick="ssGo(-1)">←</button>
+    <span class="ss-counter" id="ssCounter"></span>
+    <button class="ss-btn" id="ssNext" onclick="ssGo(1)">→</button>
+  </div>
+</div>
+
+<script>
+  let slides = [];
+  let ssIdx = 0;
+
+  function addSlide() {
+    const title = document.getElementById('titleInput').value.trim();
+    const body  = document.getElementById('bodyInput').value.trim();
+    if (!title) { document.getElementById('titleInput').focus(); return; }
+    slides.push({ title, body });
+    document.getElementById('titleInput').value = '';
+    document.getElementById('bodyInput').value = '';
+    document.getElementById('titleInput').focus();
+    render();
+  }
+
+  function deleteSlide(i) {
+    slides.splice(i, 1);
+    render();
+  }
+
+  function render() {
+    const list  = document.getElementById('slidesList');
+    const empty = document.getElementById('emptyMsg');
+    const count = document.getElementById('slideCount');
+    const wrap  = document.getElementById('presentWrap');
+
+    count.textContent = `(${slides.length})`;
+    wrap.hidden = slides.length === 0;
+
+    if (slides.length === 0) {
+      list.innerHTML = '';
+      list.appendChild(empty);
+      empty.style.display = '';
+      return;
+    }
+
+    empty.style.display = 'none';
+    list.innerHTML = slides.map((s, i) => `
+      <div class="slide-item">
+        <div class="slide-num">${i + 1}</div>
+        <div class="slide-content">
+          <div class="slide-title">${esc(s.title)}</div>
+          <div class="slide-body">${esc(s.body) || '<em style="color:#ccc">No content</em>'}</div>
+        </div>
+        <div class="slide-actions">
+          <button class="btn btn-danger" onclick="deleteSlide(${i})">✕</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function startSlideshow() {
+    if (!slides.length) return;
+    ssIdx = 0;
+    document.getElementById('overlay').classList.add('active');
+    ssRender();
+    document.addEventListener('keydown', ssKey);
+  }
+
+  function exitSlideshow() {
+    document.getElementById('overlay').classList.remove('active');
+    document.removeEventListener('keydown', ssKey);
+  }
+
+  function ssRender() {
+    const s = slides[ssIdx];
+    document.getElementById('ssTitle').textContent   = s.title;
+    document.getElementById('ssBody').textContent    = s.body;
+    document.getElementById('ssCounter').textContent = `${ssIdx + 1} / ${slides.length}`;
+    document.getElementById('ssPrev').disabled = ssIdx === 0;
+    document.getElementById('ssNext').disabled = ssIdx === slides.length - 1;
+  }
+
+  function ssGo(d) {
+    ssIdx = Math.max(0, Math.min(slides.length - 1, ssIdx + d));
+    ssRender();
+  }
+
+  function ssKey(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') ssGo(1);
+    if (e.key === 'ArrowLeft')  ssGo(-1);
+    if (e.key === 'Escape')     exitSlideshow();
+  }
+
+  function esc(str) {
+    const d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
+  }
+</script>
+
+</body>
+</html>
